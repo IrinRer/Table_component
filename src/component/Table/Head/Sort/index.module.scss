@@ -1,0 +1,29 @@
+.wrapper {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.sort_up {
+  width: 5px;
+  height: 5px;
+  border-top: 2px solid gray;
+  border-right: 2px solid gray;
+  transform: rotate(-45deg);
+  transition: 1s;
+  cursor: pointer;
+
+  &:target {
+    border-color: black;
+  }
+}
+
+.sort_down {
+    width: 5px;
+    height: 5px;
+    border-top: 2px solid gray;
+    border-right: 2px solid gray;
+    transform: rotate(135deg);
+    transition: 1s;
+    cursor: pointer;
+  }

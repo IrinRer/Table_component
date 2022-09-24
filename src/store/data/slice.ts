@@ -5,6 +5,7 @@ import { fetchDataAction } from './thunk';
 
 const initialState: IDataSlice = {
   data: [],
+  sortItem: '',
   dataFilter: [],
   filterStatus: 'all',
   filterType: 'all',
@@ -16,12 +17,24 @@ export const dataSlice = createSlice({
   name: DATA_SLICE_ALIAS,
   initialState,
   reducers: {
+    onSortUp: (state, action) => {
+      state.dataFilter = state.data.sort(
+        (a, b) => b[action.payload] - a[action.payload],
+      );
+      state.sortItem = action.payload;
+    },
+    onSortDown: (state, action) => {
+      state.dataFilter = state.data.sort(
+        (a, b) => a[action.payload] - b[action.payload],
+      );
+      state.sortItem = action.payload;
+    },
     setFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
 
       if (state.filterStatus === 'all') {
         state.dataFilter = state.data;
-      } else if (state.filterStatus !== 'all') {
+      } else if (state.filterType !== 'all') {
         state.dataFilter = state.data.filter(
           (item) =>
             item.status === action.payload && item.type === state.filterType,
@@ -75,5 +88,5 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setFilterStatus, setFilterType } = dataSlice.actions;
+export const { setFilterStatus, setFilterType, onSortUp, onSortDown } = dataSlice.actions;
 export default dataSlice.reducer;

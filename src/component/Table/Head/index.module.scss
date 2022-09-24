@@ -1,10 +1,16 @@
 .select {
     background-color: gray;
     color: white;
-    margin-left: 10px;
+    margin-right: 10px;
     appearance: none;
     padding: 2px 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     cursor: pointer;
+}
+
+.sort {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -18,6 +18,7 @@ export interface IDataSlice {
   data: Array<IDataItem>;
   dataFilter: Array<IDataItem>;
   filterStatus: string;
+  sortItem: string;
   filterType: string;
   loading: boolean;
   error: AxiosError | null;

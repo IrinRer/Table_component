@@ -1,6 +1,6 @@
 import { useAppSelector } from 'hooks/redux/useAppSelector';
 import React from 'react';
-import { getData } from 'store/data/selectors';
+import { getData} from 'store/data/selectors';
 import styles from './index.module.scss';
 
 const Rows = () => {

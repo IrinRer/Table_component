@@ -1,41 +1,41 @@
 import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITypeSlice, TYPES_SLICE_ALIAS } from './types';
-import { fetchTypesAction } from './thunk';
+import { IStatusSlice, STATUS_SLICE_ALIAS } from './types';
+import { fetchStatusAction } from './thunk';
 
-const initialState: ITypeSlice = {
-  type: [],
+const initialState: IStatusSlice = {
+  status: [],
   loading: false,
   error: null,
 };
 
-export const typeSlice = createSlice({
-  name: TYPES_SLICE_ALIAS,
+export const statusSlice = createSlice({
+  name: STATUS_SLICE_ALIAS,
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchTypesAction.pending.type]: (state) => {
+    [fetchStatusAction.pending.type]: (state) => {
       state.loading = true;
       state.error = null;
     },
 
-    [fetchTypesAction.fulfilled.type]: (
+    [fetchStatusAction.fulfilled.type]: (
       state,
       { payload }: PayloadAction<Array<string>>,
     ) => {
-      state.type = payload;
+      state.status = payload;
       state.loading = false;
     },
 
-    [fetchTypesAction.rejected.type]: (
+    [fetchStatusAction.rejected.type]: (
       state,
       { payload }: PayloadAction<AxiosError>,
     ) => {
-      state.type = [];
+      state.status = [];
       state.loading = false;
       state.error = payload;
     },
   },
 });
 
-export default typeSlice.reducer;
+export default statusSlice.reducer;
