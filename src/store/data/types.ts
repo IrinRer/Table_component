@@ -11,6 +11,7 @@ export interface IDataItem {
   volume: number;
   roi: number;
   free: number;
+  hedge: number;
 }
 
 export interface IDataSlice {
