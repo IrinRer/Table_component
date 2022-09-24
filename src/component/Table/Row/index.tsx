@@ -9,7 +9,7 @@ const Rows = () => {
   return (
     <>
       {data.map((item) => (
-        <tr data-color={item.status} className={styles.row}>
+        <tr data-color={item.status} className={styles.row} key={item.id}>
           <td className={styles.td_name}>
             <div
               className={styles.dot}
