@@ -1,27 +1,14 @@
 import React from 'react';
+import Head from './Head';
 import styles from './index.module.scss';
+import ProjectName from './Row/ProjectName';
 
 const Table = () => {
   return (
     <table>
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Token Type</th>
-          <th>Conditions</th>
-          <th>Volume</th>
-          <th>ROI</th>
-          <th>Free float</th>
-          <th>Insuranse hedge</th>
-        </tr>
-      </thead>
+      <Head />
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>9.1</td>
-          <td>Зелёная миля</td>
-          <td>1999</td>
-        </tr>
+        <ProjectName/>
         <tr>
           <td>2</td>
           <td>9.1</td>
