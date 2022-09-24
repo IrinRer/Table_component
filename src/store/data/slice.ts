@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DATA_SLICE_ALIAS, IDataSlice, IDataItem } from './types';
-import { fechDataAction } from './thunk';
+import { fetchDataAction } from './thunk';
 
 const initialState: IDataSlice = {
   data: [],
@@ -14,12 +14,12 @@ export const dataSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fechDataAction.pending.type]: (state) => {
+    [fetchDataAction.pending.type]: (state) => {
       state.loading = true;
       state.error = null;
     },
 
-    [fechDataAction.fulfilled.type]: (
+    [fetchDataAction.fulfilled.type]: (
       state,
       { payload }: PayloadAction<Array<IDataItem>>,
     ) => {
@@ -27,7 +27,7 @@ export const dataSlice = createSlice({
       state.loading = false;
     },
 
-    [fechDataAction.rejected.type]: (
+    [fetchDataAction.rejected.type]: (
       state,
       { payload }: PayloadAction<AxiosError>,
     ) => {

@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { api } from 'network';
 import { DATA_SLICE_ALIAS } from './types';
 
-export const fechDataAction = createAsyncThunk(
+export const fetchDataAction = createAsyncThunk(
   `${DATA_SLICE_ALIAS}/fetch`,
   async (_, { rejectWithValue }) => {
     try {
