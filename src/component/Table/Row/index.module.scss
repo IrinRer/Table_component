@@ -1,0 +1,27 @@
+.row {
+    font-weight: 600;
+}
+
+.row[data-color='green'] {
+  background-color: rgba($color: green, $alpha: 0.3);
+}
+
+.row[data-color='yellow'] {
+  background-color: rgba($color: yellow, $alpha: 0.3);
+}
+
+.row[data-color='red'] {
+  background-color: rgba($color: red, $alpha: 0.3);
+}
+
+.td_name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}

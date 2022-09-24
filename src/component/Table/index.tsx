@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 const Table = () => {
   return (
-    <table>
+    <table className={styles.table}>
       <Head />
       <tbody>
         <Rows />
