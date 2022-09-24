@@ -3,21 +3,25 @@ import React from 'react';
 import { onSortDown, onSortUp } from 'store/data/slice';
 import styles from './index.module.scss';
 
-const Sort = ({field}) => {
+interface IProps {
+  field: string;
+}
+
+const Sort: React.FC<IProps> = ({ field }) => {
   const dispatch = useAppDispatch();
 
   const onSortUpHandler = () => {
-    dispatch(onSortUp(field))
+    dispatch(onSortUp(field));
   };
 
   const onSortDownHandler = () => {
-    dispatch(onSortDown(field))
+    dispatch(onSortDown(field));
   };
-  
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.sort_up} onClick={onSortUpHandler}/>
-      <div className={styles.sort_down} onClick={onSortDownHandler}/>
+      <div className={styles.sort_up} onClick={onSortUpHandler} />
+      <div className={styles.sort_down} onClick={onSortDownHandler} />
     </div>
   );
 };
