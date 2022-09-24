@@ -1,14 +1,17 @@
+import { useAppDispatch } from 'hooks/redux/useAppDispatch';
 import { useAppSelector } from 'hooks/redux/useAppSelector';
 import React from 'react';
 import { getStatus } from 'store/data/selectors';
+import { setFilter } from 'store/data/slice';
 import styles from './index.module.scss';
 
 const Head = () => {
   const status = useAppSelector(getStatus);
+  const dispatch = useAppDispatch();
 
   const handleChange = (e) => {
-    console.log(e.target.value);
-  }
+    dispatch(setFilter(e.target.value));
+  };
 
   return (
     <thead>
@@ -18,7 +21,9 @@ const Head = () => {
           <select className={styles.select} onChange={handleChange}>
             <option value="all">All</option>
             {status.map((item) => (
-              <option value={item} key={item}>{item}</option>
+              <option value={item} key={item}>
+                {item}
+              </option>
             ))}
           </select>
         </th>
