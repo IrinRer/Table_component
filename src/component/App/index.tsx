@@ -1,3 +1,4 @@
+import Table from 'component/Table';
 import { useAppDispatch } from 'hooks/redux/useAppDispatch';
 import React, { useEffect } from 'react';
 import { fetchDataAction } from 'store/data/thunk';
@@ -9,7 +10,7 @@ const App = () => {
     dispatch(fetchDataAction());
   }, [dispatch]);
   
-  return <p>app</p>;
+  return <Table/>;
 };
 
 export default App;
