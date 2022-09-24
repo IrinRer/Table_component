@@ -6,7 +6,8 @@ import { fetchDataAction } from './thunk';
 const initialState: IDataSlice = {
   data: [],
   dataFilter: [],
-  filter: 'all',
+  filterStatus: 'all',
+  filterType: 'all',
   loading: false,
   error: null,
 };
@@ -15,14 +16,35 @@ export const dataSlice = createSlice({
   name: DATA_SLICE_ALIAS,
   initialState,
   reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload;
+    setFilterStatus: (state, action) => {
+      state.filterStatus = action.payload;
 
-      if (state.filter === 'all') {
+      if (state.filterStatus === 'all') {
         state.dataFilter = state.data;
+      } else if (state.filterStatus !== 'all') {
+        state.dataFilter = state.data.filter(
+          (item) =>
+            item.status === action.payload && item.type === state.filterType,
+        );
       } else {
         state.dataFilter = state.data.filter(
           (item) => item.status === action.payload,
+        );
+      }
+    },
+    setFilterType: (state, action) => {
+      state.filterType = action.payload;
+
+      if (state.filterType === 'all') {
+        state.dataFilter = state.data;
+      } else if (state.filterStatus !== 'all') {
+        state.dataFilter = state.data.filter(
+          (item) =>
+            item.type === action.payload && item.status === state.filterStatus,
+        );
+      } else {
+        state.dataFilter = state.data.filter(
+          (item) => item.type === action.payload,
         );
       }
     },
@@ -53,5 +75,5 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setFilter } = dataSlice.actions;
+export const { setFilterStatus, setFilterType } = dataSlice.actions;
 export default dataSlice.reducer;

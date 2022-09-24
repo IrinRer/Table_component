@@ -17,7 +17,8 @@ export interface IDataItem {
 export interface IDataSlice {
   data: Array<IDataItem>;
   dataFilter: Array<IDataItem>;
-  filter: string;
+  filterStatus: string;
+  filterType: string;
   loading: boolean;
   error: AxiosError | null;
 }

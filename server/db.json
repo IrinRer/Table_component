@@ -1,4 +1,6 @@
 {
+  "status": ["green", "yellow", "red"],
+  "type": ["TRST", "THT"],
   "data": [
     {
       "id": 1,
