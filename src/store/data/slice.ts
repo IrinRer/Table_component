@@ -7,6 +7,7 @@ const initialState: IDataSlice = {
   data: [],
   sortItem: '',
   dataFilter: [],
+  buy: [],
   filterStatus: 'all',
   filterType: 'all',
   loading: false,
@@ -17,18 +18,6 @@ export const dataSlice = createSlice({
   name: DATA_SLICE_ALIAS,
   initialState,
   reducers: {
-    onSortUp: (state, action) => {
-      state.dataFilter = state.data.sort(
-        (a, b) => b[action.payload] - a[action.payload],
-      );
-      state.sortItem = action.payload;
-    },
-    onSortDown: (state, action) => {
-      state.dataFilter = state.data.sort(
-        (a, b) => a[action.payload] - b[action.payload],
-      );
-      state.sortItem = action.payload;
-    },
     setFilterStatus: (state, action) => {
       state.filterStatus = action.payload;
 
@@ -61,6 +50,23 @@ export const dataSlice = createSlice({
         );
       }
     },
+    onSortUp: (state, action) => {
+      state.dataFilter = state.dataFilter.sort(
+        (a, b) => b[action.payload] - a[action.payload],
+      );
+      state.sortItem = action.payload;
+    },
+    onSortDown: (state, action) => {
+      state.dataFilter = state.dataFilter.sort(
+        (a, b) => a[action.payload] - b[action.payload],
+      );
+      state.sortItem = action.payload;
+    },
+    setBuy: (state, action) => {
+      state.buy = state.buy.concat(
+        state.data.filter((item) => item.id === action.payload),
+      );
+    },
   },
   extraReducers: {
     [fetchDataAction.pending.type]: (state) => {
@@ -88,5 +94,6 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { setFilterStatus, setFilterType, onSortUp, onSortDown } = dataSlice.actions;
+export const { setFilterStatus, setFilterType, onSortUp, onSortDown, setBuy } =
+  dataSlice.actions;
 export default dataSlice.reducer;

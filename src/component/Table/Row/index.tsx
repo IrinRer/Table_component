@@ -1,10 +1,18 @@
+import { useAppDispatch } from 'hooks/redux/useAppDispatch';
 import { useAppSelector } from 'hooks/redux/useAppSelector';
 import React from 'react';
-import { getData} from 'store/data/selectors';
+import { getBuyId, getData } from 'store/data/selectors';
+import { setBuy } from 'store/data/slice';
 import styles from './index.module.scss';
 
 const Rows = () => {
   const data = useAppSelector(getData);
+  const id = useAppSelector(getBuyId);
+  const dispatch = useAppDispatch();
+
+  const onBuy = (id: number) => {
+    dispatch(setBuy(id));
+  };
 
   return (
     <>
@@ -15,14 +23,38 @@ const Rows = () => {
               className={styles.dot}
               style={{ backgroundColor: item.status }}
             />
-            {item.name}
+            <a href={`${item.id}`}>{item.name}</a>
           </td>
-          <td>{item.type}</td>
-          <td>{item.conditions}</td>
-          <td>$ {item.volume}</td>
-          <td>{item.roi}</td>
-          <td>{item.free}</td>
-          <td>{item.hedge} %</td>
+          <td>
+            <a href={`${item.id}`}>{item.type}</a>
+          </td>
+          <td>
+            <a href={`${item.id}`}>{`${
+              item.conditions[0]
+            } ${item.conditions.slice(1)}`}</a>
+          </td>
+          <td>
+            <a href={`${item.id}`}>$ {item.volume.toLocaleString('ru-RU')}</a>
+          </td>
+          <td>
+            <a href={`${item.id}`}>{item.roi}</a>
+          </td>
+          <td>
+            <a href={`${item.id}`}>{item.free}</a>
+          </td>
+          <td>
+            <a href={`${item.id}`}>{item.hedge} %</a>
+          </td>
+          <td>
+            <button
+              type="button"
+              className={styles.btn}
+              onClick={() => onBuy(item.id)}
+              disabled={id.includes(String(item.id))}
+            >
+              Buy
+            </button>
+          </td>
         </tr>
       ))}
     </>

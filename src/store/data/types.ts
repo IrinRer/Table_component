@@ -18,6 +18,7 @@ export interface IDataSlice {
   data: Array<IDataItem>;
   dataFilter: Array<IDataItem>;
   filterStatus: string;
+  buy: Array<IDataItem>;
   sortItem: string;
   filterType: string;
   loading: boolean;
