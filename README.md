@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+## Описание 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Таблица с данными, с возможностью фильтра по статусу и типу, а также с сортировкой данных по возрастанию и убыванию.
 
-## Available Scripts
+## Технологии 
 
-In the project directory, you can run:
+1. React
+2. TypeScript
+3. Redux (thunk, redux-toolkit)
+4. JSON-server
+5. CSS modules
+6. Axious
 
-### `npm start`
+## Что было сделано
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. JSON-server использовался для создания сервера, к которому будут делаться запросы. Запросы делала с помощью middleware - thunk. Store создавала с помощью Redux-toolkit.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Базу данных сформирована в соответствие с потребностями.
 
-### `npm test`
+Есть поле *status*, которое содержит массив. Делаю запрос к серверу в thunk, получаю этот массив, который использую для фильтрации по статусам. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+``"status": ["green", "yellow", "red"]``
 
-### `npm run build`
+Есть поле *type*. Делаю запрос к серверу в thunk, получаю этот массив, который использую для фильтрации по типу. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+``  "type": ["TRST", "THT"] ``
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Поле *data* содержит основные данные по которым будет строиться таблица.  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+``` 
+   {
+      "id": 1,
+      "name": "Pyshky.net",
+      "status": "green",
+      "type": "TRST",
+      "conditions": "x2,6 months",
+      "volume": 120000,
+      "roi": 4,
+      "free": 20,
+      "hedge": 20
+    }
+```    
 
-### `npm run eject`
+3. Вспомогательная функция api, которая позволят создовать объект axios с нужными заголовками.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+export const api = (): AxiosInstance => {
+  return axios.create({
+    baseURL: getBackendURL(),
+  });
+};
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+В thunk нужно просто вызывать эту функцию. Это позволяет избежать дублирования кода.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Есть два *actions*, которые я использую для сортировки. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**onSortUp** - сортирует по возрастанию.
 
-## Learn More
+**onSortDown** - сортирует по убыванию. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Они принимают в себя *action*, который в *payload* содержит строку, указывающую на поле, в котором происходит сортировка. Таким образом, я избегаю дублирования кода, так как при передачи поля, его можно использовать для доступа к свойству в объекте.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+state.dataFilter = state.dataFilter.sort(
+        (a, b) => b[action.payload] - a[action.payload]);
+```
+5. Фильтрация осуществляется по статусу и по типу. 
 
-### Code Splitting
+Если пользователь установит фильтрацию по статусу, например **green**, то будут отображаться те данные, которые имеют `` status: green ``, при этом пользователь также может осуществить фильтрацию по типу, например **TRST**, тогда будут отображаться данные, которые имеют: 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+`` {status: greeen, type: TRST} ``
 
-### Analyzing the Bundle Size
+То есть фильтрация может идти как по двум полям, так и по одному. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+6. Форматирование данные. 
 
-### Making a Progressive Web App
+С сервера приходит ``volume: 20000``, по ТЗ в таблице должно отображаться *20 000*, для этого нужно сделать форматирование.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+`` item.volume.toLocaleString('ru-RU') ``
 
-### Advanced Configuration
+С сервера приходит ``conditions: "x2,6 months" ``, по ТЗ в таблице должно отображаться *x 2,6 months*, для этого я провожу форматирование. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+``${item.conditions[0]} ${item.conditions.slice(1)}``
 
-### Deployment
+7. При нажатии на кнопку *Buy* объект перемещается в массив покупок. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+state.buy = state.buy.concat(
+        state.data.filter((item) => item.id === action.payload),
+      );
+```
 
-### `npm run build` fails to minify
+Использую *concat* для того, чтобы объединить старый массив, с новыми данными. 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+8. Если объект, находится в массиву покупок, то нельзя нажать на кнопку *Buy*. 
+
+``<button disabled={id.includes(String(item.id))}/> ``
+
+**id** - это строка, которая содержит все id, объектов, которые были куплены. 
+
+## Как запустить 
+
+1. Клонируете репозиторий
+
+``git clone https://github.com/IrinRer/Table_component.git``
+
+2. Устанавливаете зависимости
+
+``npm i``
+
+3. Запускаете проект
+``npm run dev``
+
+Данная команда запустит также JSON-server.
+
+**Версия node: v14.17.3**
